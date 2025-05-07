@@ -73,5 +73,11 @@ def anadir_producto():
         
 def consultar ():
     nombre=input("ingresa el nombre del producto que deseas consultar: ").lower()
+    while True:
+        if not nombre == str:
+            print("dato invalido")
+            return
+        elif nombre== str:
+            break
     if not nombre in inventario:
         print("Este producto no esta en el inventario")
