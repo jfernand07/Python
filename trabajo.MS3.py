@@ -31,7 +31,8 @@ def menu():
     print("\n6. Salir")
     opciones=(input("Ingresa el numero de la opcion que deseas realizar"))
     match opciones:
-        case _:
+        case "1":
+            anadir_producto()
                       
 inventario={}
 
@@ -52,32 +53,29 @@ def anadir_producto():
     if not nombre in inventario:
         print("registrado con exito")
     else:
-        print("este producto ya esta registrado'{nombre}")
+        print(f"este producto ya esta registrado'{nombre}")
         return
     precio=input("ingresa el precio del producto: ").strip()
-    if not numerodecimal (precio) or float(precio) <= 0:
-        print(f"Error el numero debe de ser un numero decimal positivo.")
-        return
-    elif numerodecimal(precio) or float(precio) >=0:
-        print("precio ingresado y registrado con exito")
-    
+    while True:
+        if not numerodecimal (precio) or float(precio) <= 0:
+            print(f"Error el numero debe de ser un numero decimal positivo.")
+            return
+        elif numerodecimal(precio) or float(precio) >=0:
+            print("precio ingresado y registrado con exito")
+            break
     cantidad=(input("ingresa la cantidad del producto")).strip()
-    if not numentero(cantidad) or int (cantidad) <0:
-        print("Error, la cantidad debe de ser un numero entero positivo.")
-        return
-    elif numentero(cantidad) or int (cantidad) >0:
-        print("Cantidad ingresada con exito")
-    inventario[nombre]={"precio": float(precio), "cantidad" : int(cantidad)}
-    print(f"Producto {nombre}, Agregado con exito.")
-    menu()
+    while True:
+        if not numentero(cantidad) or int (cantidad) <0:
+            print("Error, la cantidad debe de ser un numero entero positivo.")
+            return
+        elif numentero(cantidad) or int (cantidad) >0:
+            print("Cantidad ingresada con exito")
+            break
+        inventario[nombre]={"precio": float(precio), "cantidad" : int(cantidad)}
+        print(f"Producto {nombre}, Agregado con exito.")
+        menu()
         
 def consultar ():
     nombre=input("ingresa el nombre del producto que deseas consultar: ").lower()
-    while True:
-        if not nombre == str:
-            print("dato invalido")
-            return
-        elif nombre== str:
-            break
     if not nombre in inventario:
         print("Este producto no esta en el inventario")
