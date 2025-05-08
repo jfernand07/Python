@@ -5,77 +5,170 @@
 # Esta información será almacenada de modo que el inventario pueda crecer dinámicamente
 #Consultar productos:
 #Se debe poder buscar un producto por su nombre y obtener detalles como su precio y cantidad disponible
- #       Si el producto no está en el inventario, se debe notificar adecuadamente
- #  Actualizar precios:
- #     El programa debe permitir al usuario seleccionar un producto e introducir un nuevo precio, asegurando que este se actualice correctamente en el inventario
- #Eliminar productos:
- #   El programa debe permitir al usuario eliminar productos del inventario de manera segura
- # Calcular el valor total del inventario:
- #    El programa debe calcular el valor total de los productos en inventario y mostrarlo al usuario
+#       Si el producto no está en el inventario, se debe notificar adecuadamente
+#  Actualizar precios:
+#     El programa debe permitir al usuario seleccionar un producto e introducir un nuevo precio, asegurando que este se actualice correctamente en el inventario
+#Eliminar productos:
+#   El programa debe permitir al usuario eliminar productos del inventario de manera segura
+# Calcular el valor total del inventario:
+#    El programa debe calcular el valor total de los productos en inventario y mostrarlo al usuario
 #   Para ello, utilizarás una función anónima (lambda) que facilite este cálculo.
 #Tu programa debe diseñarse modularmente, con funciones bien definidas que gestionen cada operación mencionada. Además, debes almacenar los productos en un diccionario, donde el nombre del producto sea la clave, y el precio y la cantidad sean los valores asociados, almacenados en una tupla.
 #El flujo del programa debe ser interactivo, permitiendo que el usuario escoja qué operación desea realizar. Además, asegúrate de manejar posibles errores, como la búsqueda de productos que no existen o intentos de añadir productos con datos inválidos.
 #Finalmente, el código debe ser legible, bien estructurado y comentado. No olvides probar exhaustivamente tu solución con distintos escenarios para asegurar que funciona correctamente en todo tipo de casos. 
 
-#funciones
-
-#funcion menu interactivo
-def menu():
-    print("Bienvenido a shoppe")
-    print("que deseas realizar?" , "escoge el numero de la opcion que deseas hacer")  
-    print ("\n1.Añadir productos" )
-    print("\n2.Consultar productos") 
-    print("\n3.Actualizar productos")
-    print("\n4.Eliminar productos")
-    print("\n5.Calcular valor total ")
-    print("\n6. Salir")
-    opciones=(input("Ingresa el numero de la opcion que deseas realizar"))
-    match opciones:
-        case "1":
-            anadir_producto()
-                      
+#directorio de inventario
 inventario={}
 
-#validar el si el numero es entero
-def numentero(valor):           
-    return valor.isdigit()
-
-
-#validar si el numero es decimal
+# verifica si un valor es un número decimal
 def numerodecimal(valor):
-    if valor.count()==1:
-        entero, decimal = valor.split()
-        return entero.isdigit() and decimal.isdigit()
-    return False
+    try:
+        float(valor)
+        return True
+    except ValueError:
+        return False
+#verificar si el numero  no sea menor a 0 y mayor a 6
+def confirmacion(valor):
+    try:
+        return 0 < float(valor) < 6
+    except ValueError:
+        return False
+# Verifica si un valor es un número entero
+def numentero(valor):
+    try:
+        int(valor)
+        return True
+    except ValueError:
+        return False
+    
+    
+# verifica respuestas
+def respuesta():
+    while True:
+        respuesta = input("¿Desea continuar? (si/no): ").strip().lower()
+        if respuesta in ["si", "no"]:
+            return respuesta == "si"
+        else:
+            print("Respuesta no válida. Por favor, ingrese 'si' o 'no'.")
 
-def anadir_producto():
-    nombre=input("Ingresa el nombre del producto: ").lower()
-    if not nombre in inventario:
-        print("registrado con exito")
-    else:
-        print(f"este producto ya esta registrado'{nombre}")
-        return
-    precio=input("ingresa el precio del producto: ").strip()
-    while True:
-        if not numerodecimal (precio) or float(precio) <= 0:
-            print(f"Error el numero debe de ser un numero decimal positivo.")
-            return
-        elif numerodecimal(precio) or float(precio) >=0:
-            print("precio ingresado y registrado con exito")
-            break
-    cantidad=(input("ingresa la cantidad del producto")).strip()
-    while True:
-        if not numentero(cantidad) or int (cantidad) <0:
-            print("Error, la cantidad debe de ser un numero entero positivo.")
-            return
-        elif numentero(cantidad) or int (cantidad) >0:
-            print("Cantidad ingresada con exito")
-            break
+
+def add_product(nombre, precio, cantidad):
         inventario[nombre]={"precio": float(precio), "cantidad" : int(cantidad)}
         print(f"Producto {nombre}, Agregado con exito.")
-        menu()
         
-def consultar ():
-    nombre=input("ingresa el nombre del producto que deseas consultar: ").lower()
-    if not nombre in inventario:
+def consultar (nombre):
+    if nombre not in inventario:
         print("Este producto no esta en el inventario")
+    else:
+        precio=inventario[nombre]["precio"]
+        cantidad=inventario[nombre]["cantidad"]
+        print(f"Producto: {nombre} | Precio: {precio:.2f} | Cantidad: {cantidad}")
+        
+
+# Actualizar el precio de un producto existente
+def actualizar_precio(nombre, nuevo_precio):
+    if nombre not in inventario:
+        print("Este producto no esta en el inventario")
+    else:
+        inventario[nombre]["precio"]=nuevo_precio
+        print(f"El precio del producto {nombre} ha sido actualizado a {nuevo_precio:.2f}")
+        
+#funcion para eliminar un producto
+def eliminar(nombre):
+    if nombre not in inventario:
+        print("Este producto no esta en el inventario")
+    else:
+        inventario.pop(nombre)
+        print(f"El producto {nombre} ha sido eliminado del inventario.")
+# Calcular el valor total del inventario
+def calcular_valor_total():
+    if not inventario:
+        print("El inventario está vacío.")
+    else:
+        valor_total = sum(item["precio"] * item["cantidad"] for item in inventario.values())
+        print(f"El valor total del inventario es: ${valor_total:.2f}")
+# Mostrar menú principal
+def mostrar_menu():
+    print("\n Sistema de Gestión de Inventario")
+    print("1. Añadir producto")
+    print("2. Consultar producto")
+    print("3. Actualizar precio")
+    print("4. Eliminar producto")
+    print("5. Calcular valor total del inventario")
+    print("6. Salir")
+
+# Ejecutar el sistema
+def ejecutar():
+    while True:
+        mostrar_menu()
+        opcion = input("Selecciona una opción (1-6): ").strip()
+        if confirmacion(opcion) == False:
+            print("Error, la opción debe ser un número entre 1 y 6.")
+            return
+        if opcion == "1":
+            while True:
+                nombre=input("Ingrese el Nombre del producto :").lower()
+                if nombre not in inventario:
+                    print("registrado con exito")
+                else:
+                    print(f"este producto ya esta registrado'{nombre}")
+                    return
+                precio=input("Ingrese el valor del producto :").strip()
+                while True:
+                    if not numerodecimal (precio) or float(precio) <= 0:
+                        print("Error el numero debe de ser un numero decimal positivo.")
+                        return
+                    elif numerodecimal(precio) or float(precio) >=0:
+                        print("precio ingresado y registrado con exito")
+                        break
+                cantidad=input("Ingrese la cantidad de productos: ").strip()
+                while True:
+                    if not numentero(cantidad) or int (cantidad) <0:
+                        print("Error, la cantidad debe de ser un numero entero positivo.")
+                        return
+                    elif numentero(cantidad) or int (cantidad) >0:
+                        print("Cantidad ingresada con exito")
+                        break
+                add_product(nombre, precio, cantidad)
+                print(inventario)
+                if respuesta()== "si" :
+                    break
+        elif opcion == "2":
+            nombre=input("Ingrese el nombre del producto a consultar: ").lower()
+            consultar(nombre)
+        elif opcion == "3":
+            while True:
+                nombre=input("Ingrese el nombre del producto a actualizar: ").lower()
+                if nombre not in inventario:
+                    print("Este producto no esta en el inventario")
+                    return
+                nuevo_precio=input("Ingrese el nuevo precio: ").strip()
+                while True:
+                    if not numerodecimal(nuevo_precio) or float(nuevo_precio) <= 0:
+                        print("Error, el precio debe de ser un numero decimal positivo.")
+                        return
+                    elif numerodecimal(nuevo_precio) or float(nuevo_precio) >=0:
+                        print("precio ingresado y registrado con exito")
+                        break
+                actualizar_precio(nombre, nuevo_precio)
+                if respuesta()== "si" :
+                    break
+                
+        elif opcion == "4":
+            while True:
+                nombre=input("Ingrese el nombre del producto a eliminar: ").lower()
+                if nombre not in inventario:
+                    print("Este producto no esta en el inventario")
+                    return
+                print(f"El producto {nombre} ha sido eliminado del inventario.")
+                eliminar(nombre) 
+                if respuesta()== "si" :   
+                    break
+        elif opcion == "5":
+            ()
+        elif opcion == "6":
+            print("Saliendo del programa. ¡Hasta pronto!")
+            break
+        else:
+            print("Opción no válida. Intenta de nuevo.")
+ejecutar()
