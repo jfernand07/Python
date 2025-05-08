@@ -1,4 +1,4 @@
-#Eres parte del equipo de desarrollo de software de una tienda que desea mejorar la gestión de su inventario digital. Te han asignado la tarea de crear un programa en Python 
+Eres parte del equipo de desarrollo de software de una tienda que desea mejorar la gestión de su inventario digital. Te han asignado la tarea de crear un programa en Python 
 # que permita al equipo añadir, consultar, actualizar y eliminar productos del inventario de manera eficiente, así como calcular el valor total del inventario. Tu programa debe interactuar con el usuario para realizar las siguientes operaciones:
 #Añadir productos:
 #Cada producto debe estar definido por su nombre, precio y cantidad disponible
@@ -18,6 +18,7 @@
 #Finalmente, el código debe ser legible, bien estructurado y comentado. No olvides probar exhaustivamente tu solución con distintos escenarios para asegurar que funciona correctamente en todo tipo de casos. 
 
 #directorio de inventario
+lista=[]
 inventario={}
 
 # verifica si un valor es un número decimal
@@ -46,14 +47,17 @@ def numentero(valor):
 def respuesta():
     while True:
         respuesta = input("¿Desea continuar? (si/no): ").strip().lower()
-        if respuesta in ["si", "no"]:
-            return respuesta == "si"
+        if respuesta in ["si"] or ['no']:
+            return respuesta 
         else:
             print("Respuesta no válida. Por favor, ingrese 'si' o 'no'.")
+            
+        
 
 
 def add_product(nombre, precio, cantidad):
         inventario[nombre]={"precio": float(precio), "cantidad" : int(cantidad)}
+        lista.append(inventario)
         print(f"Producto {nombre}, Agregado con exito.")
         
 def consultar (nombre):
@@ -85,8 +89,9 @@ def calcular_valor_total():
     if not inventario:
         print("El inventario está vacío.")
     else:
-        valor_total = sum(item["precio"] * item["cantidad"] for item in inventario.values())
-        print(f"El valor total del inventario es: ${valor_total:.2f}")
+        valor_total = lambda nombre : nombre['precio'] * nombre['cantidad']
+        producto=sum(map(valor_total,lista))
+        print(f"El valor total del inventario es: ${producto:.2f}")
 # Mostrar menú principal
 def mostrar_menu():
     print("\n Sistema de Gestión de Inventario")
@@ -104,20 +109,21 @@ def ejecutar():
         opcion = input("Selecciona una opción (1-6): ").strip()
         if confirmacion(opcion) == False:
             print("Error, la opción debe ser un número entre 1 y 6.")
-            return
         if opcion == "1":
             while True:
-                nombre=input("Ingrese el Nombre del producto :").lower()
-                if nombre not in inventario:
-                    print("registrado con exito")
-                else:
-                    print(f"este producto ya esta registrado'{nombre}")
-                    return
+                while True:
+                    nombre=input("Ingrese el Nombre del producto :").lower()
+                    if nombre not in inventario:
+                        print("registrado con exito")
+                        break
+                    else:
+                        print(f"este producto ya esta registrado'{nombre}")
+                    
                 precio=input("Ingrese el valor del producto :").strip()
                 while True:
                     if not numerodecimal (precio) or float(precio) <= 0:
                         print("Error el numero debe de ser un numero decimal positivo.")
-                        return
+                        
                     elif numerodecimal(precio) or float(precio) >=0:
                         print("precio ingresado y registrado con exito")
                         break
@@ -125,14 +131,15 @@ def ejecutar():
                 while True:
                     if not numentero(cantidad) or int (cantidad) <0:
                         print("Error, la cantidad debe de ser un numero entero positivo.")
-                        return
+                        
                     elif numentero(cantidad) or int (cantidad) >0:
                         print("Cantidad ingresada con exito")
                         break
                 add_product(nombre, precio, cantidad)
                 print(inventario)
-                if respuesta()== "si" :
+                if respuesta()== "no" :
                     break
+        
         elif opcion == "2":
             nombre=input("Ingrese el nombre del producto a consultar: ").lower()
             consultar(nombre)
@@ -142,7 +149,7 @@ def ejecutar():
                 if nombre not in inventario:
                     print("Este producto no esta en el inventario")
                     return
-                nuevo_precio=input("Ingrese el nuevo precio: ").strip()
+                nuevo_precio=float(input("Ingrese el nuevo precio: "))
                 while True:
                     if not numerodecimal(nuevo_precio) or float(nuevo_precio) <= 0:
                         print("Error, el precio debe de ser un numero decimal positivo.")
@@ -165,10 +172,11 @@ def ejecutar():
                 if respuesta()== "si" :   
                     break
         elif opcion == "5":
-            ()
+            calcular_valor_total()
         elif opcion == "6":
             print("Saliendo del programa. ¡Hasta pronto!")
             break
         else:
             print("Opción no válida. Intenta de nuevo.")
+    
 ejecutar()
