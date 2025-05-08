@@ -1,4 +1,4 @@
-Eres parte del equipo de desarrollo de software de una tienda que desea mejorar la gestión de su inventario digital. Te han asignado la tarea de crear un programa en Python 
+#Eres parte del equipo de desarrollo de software de una tienda que desea mejorar la gestión de su inventario digital. Te han asignado la tarea de crear un programa en Python 
 # que permita al equipo añadir, consultar, actualizar y eliminar productos del inventario de manera eficiente, así como calcular el valor total del inventario. Tu programa debe interactuar con el usuario para realizar las siguientes operaciones:
 #Añadir productos:
 #Cada producto debe estar definido por su nombre, precio y cantidad disponible
@@ -18,7 +18,7 @@ Eres parte del equipo de desarrollo de software de una tienda que desea mejorar 
 #Finalmente, el código debe ser legible, bien estructurado y comentado. No olvides probar exhaustivamente tu solución con distintos escenarios para asegurar que funciona correctamente en todo tipo de casos. 
 
 #directorio de inventario
-lista=[]
+
 inventario={}
 
 # verifica si un valor es un número decimal
@@ -57,7 +57,7 @@ def respuesta():
 
 def add_product(nombre, precio, cantidad):
         inventario[nombre]={"precio": float(precio), "cantidad" : int(cantidad)}
-        lista.append(inventario)
+
         print(f"Producto {nombre}, Agregado con exito.")
         
 def consultar (nombre):
@@ -89,9 +89,12 @@ def calcular_valor_total():
     if not inventario:
         print("El inventario está vacío.")
     else:
-        valor_total = lambda nombre : nombre['precio'] * nombre['cantidad']
-        producto=sum(map(valor_total,lista))
-        print(f"El valor total del inventario es: ${producto:.2f}")
+        valor_total = sum(map(lambda item: item["precio"] * item["cantidad"], inventario.values()))
+        print(f"El valor total del inventario es: ${valor_total:.2f}")
+
+    
+   
+
 # Mostrar menú principal
 def mostrar_menu():
     print("\n Sistema de Gestión de Inventario")
