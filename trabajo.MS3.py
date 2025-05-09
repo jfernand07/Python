@@ -23,24 +23,43 @@ inventario={}
 
 # verifica si un valor es un número decimal
 def numerodecimal(valor):
-    try:
-        float(valor)
-        return True
-    except ValueError:
+    if not valor:
         return False
+    if valor[0] in '+-':
+        valor = valor[1:]
+    punto = 0
+    for c in valor:
+        if c == '.':
+            punto += 1
+            if punto > 1:
+                return False
+        elif not c.isdigit():
+            return False
+
+    return True if valor and valor != '.' else False
 #verificar si el numero  no sea menor a 0 y mayor a 6
 def confirmacion(valor):
-    try:
-        return 0 < float(valor) < 6
-    except ValueError:
+    if not valor:
         return False
+    if valor[0] in '+-':
+        signo = valor[0]
+        valor = valor[1:]
+    else:
+        signo = '+'
+    if not valor.isdigit():
+        return False
+    numero = int(valor)
+    if signo == '-':
+        numero = -numero
+
+    return 0 < numero < 6
 # Verifica si un valor es un número entero
 def numentero(valor):
-    try:
-        int(valor)
-        return True
-    except ValueError:
+    if not valor:
         return False
+    if valor[0] in '+-':
+        valor = valor[1:]
+    return valor.isdigit() and valor != ''
     
     
 # verifica respuestas
@@ -52,8 +71,6 @@ def respuesta():
         else:
             print("Respuesta no válida. Por favor, ingrese 'si' o 'no'.")
             
-        
-
 
 def add_product(nombre, precio, cantidad):
         inventario[nombre]={"precio": float(precio), "cantidad" : int(cantidad)}
@@ -91,9 +108,6 @@ def calcular_valor_total():
     else:
         valor_total = sum(map(lambda item: item["precio"] * item["cantidad"], inventario.values()))
         print(f"El valor total del inventario es: ${valor_total:.2f}")
-
-    
-   
 
 # Mostrar menú principal
 def mostrar_menu():
