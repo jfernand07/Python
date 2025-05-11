@@ -10,7 +10,7 @@
 #     El programa debe permitir al usuario seleccionar un producto e introducir un nuevo precio, asegurando que este se actualice correctamente en el inventario
 #Eliminar productos:
 #   El programa debe permitir al usuario eliminar productos del inventario de manera segura
-# Calcular el valor total del inventario:
+#Calcular el valor total del inventario:
 #    El programa debe calcular el valor total de los productos en inventario y mostrarlo al usuario
 #   Para ello, utilizarás una función anónima (lambda) que facilite este cálculo.
 #Tu programa debe diseñarse modularmente, con funciones bien definidas que gestionen cada operación mencionada. Además, debes almacenar los productos en un diccionario, donde el nombre del producto sea la clave, y el precio y la cantidad sean los valores asociados, almacenados en una tupla.
@@ -166,8 +166,9 @@ def ejecutar():
                 if nombre not in inventario:
                     print("Este producto no esta en el inventario")
                     return
-                nuevo_precio=float(input("Ingrese el nuevo precio: "))
+                print(f"Producto: {nombre} | Precio: {inventario[nombre]['precio']:.2f} | Cantidad: {inventario[nombre]['cantidad']}")
                 while True:
+                    nuevo_precio=float(input("Ingrese el nuevo precio: "))
                     if not numerodecimal(nuevo_precio) or float(nuevo_precio) <= 0:
                         print("Error, el precio debe de ser un numero decimal positivo.")
                         return
