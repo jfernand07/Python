@@ -7,6 +7,32 @@ inventory = [
     {"product": "headset", "price": 30.0, "quantity": 5}
 ]
 
+# Validaciones
+def confirmation(valor):
+    try:
+        return 0 < int(valor) < 7
+    except ValueError:
+        return False
+
+def numint(valor):
+    try:
+        int(valor)
+        return True
+    except ValueError:
+        return False
+
+def numfloat(valor):
+    try:
+        
+        # Gestión de inventario
+inventory = [
+    {"product": "book", "price": 10.0, "quantity": 10},
+    {"product": "mouse", "price": 15.0, "quantity": 50},
+    {"product": "keyboard", "price": 20.0, "quantity": 30},
+    {"product": "monitor", "price": 25.0, "quantity": 10},
+    {"product": "headset", "price": 30.0, "quantity": 5}
+]
+
 # Validación de opción del menú (1-6)
 def confirmation(valor):
     try:
