@@ -73,7 +73,7 @@ def respuesta():
             
 
 def add_product(nombre, precio, cantidad):
-        inventario[nombre]={"precio": float(precio), "cantidad" : int(cantidad)}
+        inventario.append[nombre]={"precio": float(precio), "cantidad" : int(cantidad)}
 
         print(f"Producto {nombre}, Agregado con exito.")
         
