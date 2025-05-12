@@ -152,8 +152,8 @@ def ejecutar():
                     elif numentero(cantidad) or int (cantidad) >0:
                         print("Cantidad ingresada con exito")
                         break
-                add_product(nombre, precio, cantidad)
-                print(inventario)
+                    add_product(nombre, precio, cantidad)
+                    print(inventario)
                 if respuesta()== "no" :
                     break
         
