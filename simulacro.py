@@ -1,4 +1,69 @@
-# Gestión de inventario
+llllllll
+inventory = [
+    {"product": "book", "price": 10.0, "quantity": 10},
+    {"product": "mouse", "price": 15.0, "quantity": 50},
+    {"product": "keyboard", "price": 20.0, "quantity": 30},
+    {"product": "monitor", "price": 25.0, "quantity": 10},
+    {"product": "headset", "price": 30.0, "quantity": 5}
+]
+
+# Validación de opción del menú (1-6)
+def confirmation(valor):
+    try:
+        return 1 <= int(valor) <= 6
+    except ValueError:
+        return False
+
+# Validación de número entero
+def numint(valor):
+    try:
+        int(valor)
+        return True
+    except ValueError:
+        return False
+
+# Validación de número decimal
+def numfloat(valor):
+    try:
+        float(valor)
+        return True
+    except ValueError:
+        return False
+
+# Pregunta al usuario si desea continuar
+def answer():
+    while True:
+        response = input("Do you want to continue (Yes/No): ").strip().lower()
+        if response in ["yes", "no"]:
+            return response
+        else:
+            print("Error, please enter 'Yes' or 'No'.")
+
+# Agrega un nuevo producto
+def add(product, price, quantity):
+    inventory.append({"product": product, "price": float(price), "quantity": int(quantity)})
+    print(f"Product '{product}' successfully added.")
+
+# Busca un producto en el inventario
+def search(product):
+    found = next((item for item in inventory if item["product"] == product), None)
+    if not found:
+        print("This product is not registered.")
+    else:
+        print(f"Product: {found['product']} | Price: ${found['price']:.2f} | Quantity: {found['quantity']}")
+
+# Actualiza el precio de un producto
+def updated_price(product, new_price):
+    for item in inventory:
+        if item["product"] == product:
+            item["price"] = float(new_price)
+            print(f"The price of '{product}' has been updated to ${float(new_price):.2f}")
+            return
+    print("This product
+    llllllllll
+    
+          
+          # Gestión de inventario
 inventory = [
     {"product": "book", "price": 10.0, "quantity": 10},
     {"product": "mouse", "price": 15.0, "quantity": 50},
